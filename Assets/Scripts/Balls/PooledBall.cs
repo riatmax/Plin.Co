@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PooledBall : MonoBehaviour
 {
-    [Header("Assign in Inspector")]
     public SimplePool2D pool;
 
     private Rigidbody2D rb;
@@ -16,7 +15,6 @@ public class PooledBall : MonoBehaviour
     {
         if (rb != null)
         {
-            // Use velocity for broad Unity 2D compatibility
             rb.linearVelocity = Vector2.zero;
             rb.angularVelocity = 0f;
             rb.simulated = true;
@@ -31,6 +29,9 @@ public class PooledBall : MonoBehaviour
             rb.angularVelocity = 0f;
             rb.simulated = false;
         }
+
+        if (GameManager.GM != null)
+            GameManager.GM.RegisterBallReturned(this);
 
         if (pool != null) pool.Return(gameObject);
         else gameObject.SetActive(false);
